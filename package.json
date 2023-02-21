@@ -1,0 +1,39 @@
+{
+  "name": "expo-env",
+  "version": "1.0.0",
+  "description": "Load expo environment variables using import statements for multiple env files.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elitenas/expo-env.git"
+  },
+  "author": "Anas Siraj",
+  "license": "MIT",
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {
+      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.js$": "babel-jest"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.[jt]s?(x)"
+    ]
+  },
+  "bugs": {
+    "url": "https://github.com/elitenas/expo-env/issues"
+  },
+  "homepage": "https://github.com/elitenas/expo-env#readme",
+  "dependencies": {
+    "expo-file-system": "^15.1.1",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "babel-jest": "^29.4.3",
+    "jest": "^29.4.3"
+  }
+}
