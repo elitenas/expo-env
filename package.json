@@ -14,10 +14,6 @@
   "license": "MIT",
   "jest": {
     "testEnvironment": "node",
-    "transform": {
-      "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.js$": "babel-jest"
-    },
     "testMatch": [
       "**/__tests__/**/*.[jt]s?(x)"
     ]
