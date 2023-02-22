@@ -1,6 +1,5 @@
 const FileSystem = require('expo-file-system');
 const { get } = require('lodash');
-const path = require('path');
 
 const DEFAULT_ENV = 'development';
 const PRIORITY_ENVS = [
@@ -15,10 +14,10 @@ const getEnvFilename = async () => {
   const filenames = priorityEnvs.flatMap(({ filenames }) => filenames);
 
   for (const filename of filenames) {
-    const filePath = path.resolve(__dirname, filename); // get absolute path to file
-    const fileInfo = await FileSystem.getInfoAsync(filePath);
+    const fileInfo = await FileSystem.getInfoAsync(filename);
     if (fileInfo.exists) {
-      return filePath;
+      console.log(`Found environment file: ${filename}`);
+      return filename;
     }
   }
 
@@ -26,6 +25,7 @@ const getEnvFilename = async () => {
 };
 
 const parseEnvVars = (contents) => {
+  console.log(`Parsing environment variables: ${contents}`);
   return contents.split('\n').reduce((acc, line) => {
     const [key, value] = line.split('=');
     return key ? { ...acc, [key]: value } : acc;

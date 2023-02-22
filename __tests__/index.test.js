@@ -82,36 +82,25 @@ describe('loadEnv', () => {
     expect(env).toEqual({ VAR1: 'value1', VAR2: 'value2' });
   });
 
-  it('should load environment variables from multiple files with correct priority', async () => {
-    const mockContents1 = 'VAR1=value1\nVAR2=value2\nVAR3=value3\n';
-    const mockContents2 = 'VAR1=value4\nVAR3=value5\nVAR4=value6\n';
+  it('should load the highest priority environment file that exists', async () => {
+    FileSystem.readAsStringAsync.mockResolvedValue('FOO=bar\nBAZ=qux');
 
-    FileSystem.readAsStringAsync.mockImplementation((filename) => {
-      switch (filename) {
-        case '.env':
-          return Promise.resolve(mockContents1);
-        case '.env.local':
-          return Promise.resolve(mockContents2);
-        default:
-          return Promise.reject(new Error(`File not found: ${filename}`));
-      }
-    });
-
-    FileSystem.getInfoAsync.mockImplementation((filename) => {
-      switch (filename) {
-        case '.env':
-        case '.env.local':
-        case '.env.test.local':
-          return Promise.resolve({ exists: true });
-        default:
-          return Promise.reject(new Error(`File not found: ${filename}`));
-      }
-    });
+    FileSystem.getInfoAsync.mockResolvedValueOnce({ exists: false });
+    FileSystem.getInfoAsync.mockResolvedValueOnce({ exists: true });
+  
     const env = await loadEnv();
-    expect(env).toEqual({ VAR1: 'value4', VAR2: 'value2', VAR3: 'value5', VAR4: 'value6' });
+  
+    expect(env).toEqual({ FOO: 'bar', BAZ: 'qux' });
+  
+    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('.env.test.local');
+    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('.env.test');
+    expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.production.local');
+    expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.production');
+    expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.development.local');
+    expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.development');
   });
 
-  it('should return empty object if no env files found', async () => {
+  it('should return an empty object if no environment file exists', async () => {
     FileSystem.getInfoAsync.mockResolvedValue({ exists: false });
     const env = await loadEnv();
     expect(env).toEqual({});
