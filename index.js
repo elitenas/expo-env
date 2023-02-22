@@ -3,9 +3,9 @@ const { get } = require('lodash');
 
 const DEFAULT_ENV = 'development';
 const PRIORITY_ENVS = [
-  { env: 'test', filenames: ['.env.test.local', '.env.test'] },
-  { env: 'production', filenames: ['.env.production.local', '.env.production'] },
-  { env: 'development', filenames: ['.env.development.local', '.env.development'] },
+  { env: 'test', filenames: ['.env.test.local', '.env.local', '.env.test', '.env'] },
+  { env: 'production', filenames: ['.env.production.local', '.env.local', '.env.production', '.env'] },
+  { env: 'development', filenames: ['.env.development.local', '.env.local', '.env.development', '.env'] },
 ];
 
 const getEnvFilename = async () => {

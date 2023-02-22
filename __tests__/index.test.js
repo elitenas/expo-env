@@ -93,7 +93,7 @@ describe('loadEnv', () => {
     expect(env).toEqual({ FOO: 'bar', BAZ: 'qux' });
   
     expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('.env.test.local');
-    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('.env.test');
+    expect(FileSystem.getInfoAsync).toHaveBeenCalledWith('.env.local');
     expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.production.local');
     expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.production');
     expect(FileSystem.getInfoAsync).not.toHaveBeenCalledWith('.env.development.local');
