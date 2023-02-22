@@ -16,7 +16,6 @@ const getEnvFilename = async () => {
   for (const filename of filenames) {
     const fileInfo = await FileSystem.getInfoAsync(filename);
     if (fileInfo.exists) {
-      console.log(`Found environment file: ${filename}`);
       return filename;
     }
   }
@@ -25,7 +24,6 @@ const getEnvFilename = async () => {
 };
 
 const parseEnvVars = (contents) => {
-  console.log(`Parsing environment variables: ${contents}`);
   return contents.split('\n').reduce((acc, line) => {
     const [key, value] = line.split('=');
     return key ? { ...acc, [key]: value } : acc;
